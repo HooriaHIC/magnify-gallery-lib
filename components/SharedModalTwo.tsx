@@ -65,21 +65,21 @@ import {
                 onClick={() => zoomIn()}
                 title="Zoom In"
             >
-                <MagnifyingGlassPlusIcon className="h-5 w-5" />
+                <MagnifyingGlassPlusIcon className="h-6 w-6" />
             </button>
             <button
                 className="rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white"
                 onClick={() => zoomOut()}
                 title="Zoom Out"
             >
-                <MagnifyingGlassMinusIcon className="h-5 w-5" />
+                <MagnifyingGlassMinusIcon className="h-6 w-6" />
             </button>
             <button
                 className="rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white"
                 onClick={() => resetTransform()}
                 title="Reset Transform"
             >
-                <ViewColumnsIcon className="h-5 w-5" />
+                <ViewColumnsIcon className="h-6 w-6" />
             </button>
           </div>
         );
