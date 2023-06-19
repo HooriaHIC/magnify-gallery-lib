@@ -41,6 +41,7 @@ export default function ImageMagnifier({
             style={{
                 marginLeft: "auto",
                 marginRight: "auto",
+                cursor: "none",
             }}
             onMouseEnter={(e) => {
                 const elem = e.currentTarget;

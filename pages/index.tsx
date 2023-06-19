@@ -3,9 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useRef } from 'react'
-import Bridge from '../components/Icons/Bridge'
-import Logo from '../components/Icons/Logo'
+import { useEffect, useRef, useState } from 'react'
 import Modal from '../components/Modal'
 import cloudinary from '../utils/cloudinary'
 import getBase64ImageUrl from '../utils/generateBlurPlaceholder'
@@ -16,6 +14,8 @@ const Home: NextPage = ({ images }: { images: ImageProps[] }) => {
   const router = useRouter()
   const { photoId } = router.query
   const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto()
+
+  const [isZoomIn, setIsZoomIn] = useState(false);
 
   const lastViewedPhotoRef = useRef<HTMLAnchorElement>(null)
 
@@ -30,7 +30,7 @@ const Home: NextPage = ({ images }: { images: ImageProps[] }) => {
   return (
     <>
       <Head>
-        <title>Next.js Conf 2022 Photos</title>
+        <title>Magnifier Demo</title>
         <meta
           property="og:image"
           content="https://nextjsconf-pics.vercel.app/og-image.png"
@@ -41,9 +41,11 @@ const Home: NextPage = ({ images }: { images: ImageProps[] }) => {
         />
       </Head>
       <main className="mx-auto max-w-[1960px] p-4">
-        <h1 className="text-6xl mb-14 mt-14 text-white font-semibold">Gallery Example</h1>
+        <h1 className="text-6xl mb-10 mt-14 text-white font-semibold">Gallery Example</h1>
+        <button className="bg-indigo-800 hover:bg-indigo-900 text-white font-regular mb-14 py-2 px-4 rounded" onClick={() => setIsZoomIn(!isZoomIn)}>Toggle Zoom Type</button>
         {photoId && (
           <Modal
+            zoomIn={isZoomIn}
             images={images}
             onClose={() => {
               setLastViewedPhoto(photoId)

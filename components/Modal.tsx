@@ -5,13 +5,16 @@ import { useRef, useState } from 'react'
 import useKeypress from 'react-use-keypress'
 import type { ImageProps } from '../utils/types'
 import SharedModal from './SharedModal'
+import SharedModalTwo from './SharedModalTwo'
 
 export default function Modal({
   images,
   onClose,
+  zoomIn,
 }: {
   images: ImageProps[]
   onClose?: () => void
+  zoomIn?: boolean 
 }) {
   let overlayRef = useRef()
   const router = useRouter()
@@ -71,14 +74,24 @@ export default function Modal({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       />
-      <SharedModal
-        index={curIndex}
-        direction={direction}
-        images={images}
-        changePhotoId={changePhotoId}
-        closeModal={handleClose}
-        navigation={true}
-      />
+      {zoomIn ?
+        <SharedModalTwo
+          index={curIndex}
+          direction={direction}
+          images={images}
+          changePhotoId={changePhotoId}
+          closeModal={handleClose}
+          navigation={true}
+        /> :
+        <SharedModal
+          index={curIndex}
+          direction={direction}
+          images={images}
+          changePhotoId={changePhotoId}
+          closeModal={handleClose}
+          navigation={true}
+        />
+      }
     </Dialog>
   )
 }
