@@ -59,7 +59,7 @@ import {
     const Controls = () => {
         const { zoomIn, zoomOut, resetTransform } = useControls();
         return (
-          <div className="absolute z-50 left-1 bottom-0 flex items-center gap-2 p-3">
+          <div className="absolute z-[100] left-1 bottom-0 flex items-center gap-2 p-3">
             <button
                 className="rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white"
                 onClick={() => zoomIn()}
@@ -93,7 +93,7 @@ import {
         }}
       >
         <div
-          className="relative z-40 flex aspect-[3/2] w-full max-w-7xl items-center wide:h-full xl:taller-than-854:h-auto"
+          className="relative z-40 flex aspect-[3/2] w-full max-w-5xl items-center wide:h-full xl:taller-than-854:h-auto"
           {...handlers}
         >
           {/* Main image */}
@@ -214,7 +214,7 @@ import {
             )}
             {/* Bottom Nav bar */}
             {navigation && (
-              <div className="fixed inset-x-0 bottom-0 z-40 overflow-hidden bg-gradient-to-b from-black/0 to-black/60">
+              <div className="fixed short:hidden inset-x-0 bottom-0 z-40 overflow-hidden bg-gradient-to-b from-black/0 to-black/60">
                 <motion.div
                   initial={false}
                   className="mx-auto mb-6 mt-6 flex aspect-[3/2] h-14"

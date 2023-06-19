@@ -17,6 +17,7 @@ module.exports = {
         narrow: { raw: '(max-aspect-ratio: 3 / 2)' },
         wide: { raw: '(min-aspect-ratio: 3 / 2)' },
         'taller-than-854': { raw: '(min-height: 854px)' },
+        short: {'raw': '(max-height: 800px)'},
       },
     },
   },
