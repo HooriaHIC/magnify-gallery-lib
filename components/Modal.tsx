@@ -61,7 +61,7 @@ export default function Modal({
   return (
     <Dialog
       static
-      open={true}
+      open={false}
       onClose={handleClose}
       initialFocus={overlayRef}
       className="fixed inset-0 z-10 flex items-center justify-center"
