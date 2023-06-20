@@ -189,6 +189,7 @@ export default function SharedModal({
                         style={{
                           marginLeft: "auto",
                           marginRight: "auto",
+                          cursor: showMagnifier ? "none" : "auto"
                         }}
                         onMouseEnter={(e) => {
                           const elem = e.currentTarget;
@@ -225,6 +226,7 @@ export default function SharedModal({
                       opacity: "1",
                       border: "4px solid #eee",
                       borderRadius: "50%",
+                      cursor: "none !important",
                       backgroundColor: "transparent",
                       backgroundImage: `url('${`https://res.cloudinary.com/${
                         process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
