@@ -1,28 +1,27 @@
-import {
+  import {
     ArrowDownTrayIcon,
     ArrowTopRightOnSquareIcon,
     ArrowUturnLeftIcon,
     ChevronLeftIcon,
     ChevronRightIcon,
+    XMarkIcon,
     MagnifyingGlassMinusIcon,
     MagnifyingGlassPlusIcon,
-    XMarkIcon,
-    ViewColumnsIcon
+    ViewColumnsIcon,
   } from "@heroicons/react/24/outline";
   import { AnimatePresence, motion, MotionConfig } from "framer-motion";
   import Image from "next/image";
-  import { useState } from "react";
+  import { useEffect, useState } from "react";
   import { useSwipeable } from "react-swipeable";
   import { variants } from "../utils/animationVariants";
   import downloadPhoto from "../utils/downloadPhoto";
   import { range } from "../utils/range";
   import type { ImageProps, SharedModalProps } from "../utils/types";
   import Twitter from "./Icons/Twitter";
-
-import {
+  import {
     TransformWrapper,
     TransformComponent,
-    useControls
+    useControls,
   } from "react-zoom-pan-pinch";
   
   export default function SharedModalTwo({
@@ -35,7 +34,7 @@ import {
     direction,
   }: SharedModalProps) {
     const [loaded, setLoaded] = useState(false);
-    
+  
     let filteredImages = images?.filter((img: ImageProps) =>
       range(index - 15, index + 15).includes(img.id)
     );
@@ -56,35 +55,56 @@ import {
   
     let currentImage = images ? images[index] : currentPhoto;
   
+    const [zoomActive, setZoomActive] = useState(false);
+  
+    const [zoomPercentage, setZoomPercentage] = useState(100);
+  
     const Controls = () => {
-        const { zoomIn, zoomOut, resetTransform } = useControls();
-        return (
-          <div className="absolute z-[100] left-1 bottom-0 flex items-center gap-2 p-3">
-            <button
-                className="rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white"
-                onClick={() => zoomIn()}
-                title="Zoom In"
-            >
-                <MagnifyingGlassPlusIcon className="h-6 w-6" />
-            </button>
-            <button
-                className="rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white"
-                onClick={() => zoomOut()}
-                title="Zoom Out"
-            >
-                <MagnifyingGlassMinusIcon className="h-6 w-6" />
-            </button>
-            <button
-                className="rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white"
-                onClick={() => resetTransform()}
-                title="Reset Transform"
-            >
-                <ViewColumnsIcon className="h-6 w-6" />
-            </button>
-          </div>
-        );
+      const { zoomIn, zoomOut, resetTransform } = useControls();
+  
+      return (
+        <div className="absolute z-[100] left-1 bottom-0 flex items-center gap-2 p-3">
+          <button
+            className="rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white"
+            onClick={() => {
+              zoomIn(1);
+              if (zoomPercentage < 200) {
+                setZoomPercentage(zoomPercentage + 25);
+              }
+            }}
+            title="Zoom In"
+          >
+            <MagnifyingGlassPlusIcon className="h-6 w-6" />
+          </button>
+          <button
+            className="rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white"
+            onClick={() => {
+              zoomOut(1);
+              if (zoomPercentage > 100) {
+                setZoomPercentage(zoomPercentage - 25);
+              }
+            }}
+            title="Zoom Out"
+          >
+            <MagnifyingGlassMinusIcon className="h-6 w-6" />
+          </button>
+          <button
+            className="rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white"
+            onClick={() => {
+              resetTransform();
+              setZoomActive(false);
+              setZoomPercentage(100);
+            }}
+            title="Reset Transform"
+          >
+            <ViewColumnsIcon className="h-6 w-6" />
+          </button>
+          <h1 className="text-md rounded-full bg-black/50 p-2 px-4 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white">
+            {zoomPercentage}%
+          </h1>
+        </div>
+      );
     };
-
     return (
       <MotionConfig
         transition={{
@@ -109,10 +129,25 @@ import {
                   exit="exit"
                   className="absolute z-40"
                 >
-                <TransformWrapper>
-                        <Controls />
-                        <TransformComponent>
-                            <Image
+                  <div
+                    style={{ position: "relative" }}
+                    onClick={(e) => {
+                      if (zoomPercentage < 200 && e.detail === 2) {
+                        setZoomPercentage(zoomPercentage + 25);
+                      }
+                    }}
+                  >
+                    <TransformWrapper
+                      minScale={1}
+                      maxScale={5}
+                      disablePadding={true}
+                      wheel={{ step: 1 }}
+                      pinch={{ disabled: true }}
+                      doubleClick={{ step: 1 }}
+                    >
+                      <Controls />
+                      <TransformComponent>
+                        <Image
                                 width={navigation ? 1280 : 1920}
                                 height={navigation ? 853 : 1280}
                                 src={`https://res.cloudinary.com/${
@@ -122,15 +157,19 @@ import {
                                 }.${currentImage.format}`}
                                 priority
                                 alt="Next.js Conf image"
-                                onLoadingComplete={() => setLoaded(true)}
+                                onLoadingComplete={() => {
+                                  setLoaded(true)
+                                  setZoomPercentage(100);
+                                }}
                                 style={{
                                     marginLeft: "auto",
                                     marginRight: "auto",
-                                    cursor: "none",
+                                    cursor: "auto",
                                 }}
                             />
-                        </TransformComponent>
+                      </TransformComponent>
                     </TransformWrapper>
+                  </div>
                 </motion.div>
               </AnimatePresence>
             </div>

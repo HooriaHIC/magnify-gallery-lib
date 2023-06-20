@@ -15,7 +15,7 @@ const Home: NextPage = ({ images }: { images: ImageProps[] }) => {
   const { photoId } = router.query
   const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto()
 
-  const [isZoomIn, setIsZoomIn] = useState(false);
+  const [isZoomIn, setIsZoomIn] = useState(true);
 
   const lastViewedPhotoRef = useRef<HTMLAnchorElement>(null)
 
@@ -42,7 +42,7 @@ const Home: NextPage = ({ images }: { images: ImageProps[] }) => {
       </Head>
       <main className="mx-auto max-w-[1960px] p-4">
         <h1 className="text-6xl mb-10 mt-14 text-white font-semibold">Gallery Example</h1>
-        <button className="bg-indigo-800 hover:bg-indigo-900 text-white font-regular mb-14 py-2 px-4 rounded" onClick={() => setIsZoomIn(!isZoomIn)}>Toggle Zoom Type</button>
+        <button className="bg-indigo-800 hover:bg-indigo-900 text-white font-regular mb-14 py-2 px-4 rounded" onClick={() => setIsZoomIn(!isZoomIn)}>Toggle Magnifier</button>
         {photoId && (
           <Modal
             zoomIn={isZoomIn}
